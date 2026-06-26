@@ -1,53 +1,68 @@
-// FincashDarkHero - Full-width dark hero with lime accent word and app store CTAs
+// FincashDarkHero - Dark hero with staggered fade-up entrance and lime accent
 // Source: https://fincash.demos.tailgrids.com
 // Screenshot: ../screenshots/fincash-home.png
-// Deps: tailwindcss
-// Tags: hero, dark, fintech, lime, app-store, landing
-// Description: Black-background centered hero section. Large headline with a
-// single lime-colored accent word. Supporting subtitle in neutral-400. Two
-// app-store badge buttons below, followed by a hero app screenshot that fades
-// out via a bottom gradient mask. Classic fintech mobile-app landing layout.
+// Deps: tailwindcss, framer-motion
+// Tags: hero, dark, fintech, lime, animated, stagger
+// Animations: headline, subtitle, buttons, and hero image each fade up with
+// increasing delay. Store buttons spring-scale on hover/tap. Hero image scales
+// up slightly on entrance for depth.
+
+"use client";
+import { motion } from "framer-motion";
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, delay, ease: [0.22, 0.68, 0, 1.2] },
+});
 
 export default function FincashDarkHero() {
   return (
     <section className="bg-black">
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
-        <div className="lg:max-w-5xl lg:px-5 mx-auto text-center pt-20 pb-16 lg:pb-22">
+        <div className="lg:max-w-5xl lg:px-5 mx-auto text-center pt-20 pb-16">
 
-          <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl mb-4 font-medium lg:leading-tight">
+          <motion.h1
+            {...fadeUp(0.05)}
+            className="text-white text-4xl sm:text-5xl lg:text-6xl mb-4 font-medium lg:leading-tight"
+          >
             Manage Your Money Unlock Your{" "}
             <span className="text-[#D6FF66]">Financial</span> Confidence
-          </h1>
+          </motion.h1>
 
-          <p className="text-base sm:text-lg leading-7 text-neutral-400 max-w-2xl mx-auto mt-4 mb-10">
+          <motion.p
+            {...fadeUp(0.18)}
+            className="text-base sm:text-lg leading-7 text-neutral-400 max-w-2xl mx-auto mt-4 mb-10"
+          >
             The all-in-one app that tracks spending, automates saving, and
             provides insights to grow your wealth with clarity.
-          </p>
+          </motion.p>
 
-          <div className="flex gap-4 items-center justify-center mb-16">
-            <a href="#" className="inline-block hover:opacity-80 transition-opacity">
+          <motion.div {...fadeUp(0.3)} className="flex gap-4 items-center justify-center mb-16">
+            <motion.a href="#" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
               <AppStoreBadge />
-            </a>
-            <a href="#" className="inline-block hover:opacity-80 transition-opacity">
+            </motion.a>
+            <motion.a href="#" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
               <PlayStoreBadge />
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
 
-          {/* Hero image with gradient fade */}
-          <div className="relative">
+          <motion.div
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 0.68, 0, 1.2] }}
+            className="relative"
+          >
             <div
               className="absolute bottom-0 left-0 right-0 h-40 z-10"
-              style={{
-                background:
-                  "linear-gradient(180deg,rgba(0,0,0,0)_0%,#000_100%)",
-              }}
+              style={{ background: "linear-gradient(180deg,rgba(0,0,0,0) 0%,#000 100%)" }}
             />
             <img
               className="w-full rounded-t-2xl"
               alt="App dashboard preview"
               src="https://fincash.demos.tailgrids.com/images/hero/hero-image.png"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
